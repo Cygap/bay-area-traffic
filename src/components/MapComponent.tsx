@@ -1,5 +1,11 @@
 import GoogleMapReact from "google-map-react";
 import MarkersLayer from "./MarkersLayer";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
+
+const containerStyle = {
+  width: "100%",
+  height: "100vh"
+};
 
 //default coordinates of the Bay Area
 export default function Map() {
@@ -13,17 +19,19 @@ export default function Map() {
 
   return (
     // Important! Always set the container height explicitly
-    <div style={{ height: "100vh", width: "100%" }}>
+    <>
       {process.env.REACT_APP_GOOGLEMAP_API_KEY ? (
-        <GoogleMapReact
-          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEMAP_API_KEY }}
-          defaultCenter={defaultProps.center}
-          defaultZoom={defaultProps.zoom}>
-          <MarkersLayer />
-        </GoogleMapReact>
+        <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLEMAP_API_KEY}>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={defaultProps.center}
+            zoom={defaultProps.zoom}>
+            <MarkersLayer />
+          </GoogleMap>
+        </LoadScript>
       ) : (
         <div>error</div>
       )}
-    </div>
+    </>
   );
 }
