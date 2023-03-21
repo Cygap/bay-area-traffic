@@ -1,14 +1,5 @@
 import GoogleMapReact from "google-map-react";
-
-const AnyReactComponent = ({
-  text,
-  lat,
-  lng
-}: {
-  text: string;
-  lat: number;
-  lng: number;
-}) => <div>{text}</div>;
+import MarkersLayer from "./MarkersLayer";
 
 //default coordinates of the Bay Area
 export default function Map() {
@@ -28,11 +19,7 @@ export default function Map() {
           bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEMAP_API_KEY }}
           defaultCenter={defaultProps.center}
           defaultZoom={defaultProps.zoom}>
-          <AnyReactComponent
-            lat={defaultProps.center.lat}
-            lng={defaultProps.center.lng}
-            text="My Marker"
-          />
+          <MarkersLayer />
         </GoogleMapReact>
       ) : (
         <div>error</div>
