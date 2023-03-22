@@ -14,14 +14,9 @@ export default function MarkerWrapper(props: WrapperProps) {
   };
   const markerClickHandler = () => {
     label ? setLabel(undefined) : setLabel(props.headline);
-    console.log(
-      "%cMarkerWrapper.tsx line:13 label",
-      "color: #007acc;",
-      props.headline
-    );
   };
   return (
-    <Marker {...props} onClick={markerClickHandler}>
+    <Marker {...props} onClick={markerClickHandler} opacity={1}>
       {label && (
         <InfoWindow position={props.position} onCloseClick={markerClickHandler}>
           <div style={divStyle}>{label}</div>
