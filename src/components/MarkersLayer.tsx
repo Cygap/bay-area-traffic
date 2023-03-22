@@ -17,7 +17,8 @@ export default function MarkersLayer() {
   };
 
   return (
-    <MarkerClustererF options={options}>
+    //had to put a void and empty function to the onClick property of cluster - otherwise library sends the clicks to all cluster's children.
+    <MarkerClustererF options={options} onClick={() => {}}>
       {(clusterer) => (
         <>
           {markers.map((marker) => {
