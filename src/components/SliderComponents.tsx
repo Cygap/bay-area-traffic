@@ -80,7 +80,7 @@ export class TooltipRail extends Component<TooltipRailProps> {
               marginTop: "-35px"
             }}>
             <div className="tooltip">
-              <span className="tooltiptext">Value: {value}</span>
+              <span className="tooltiptext">{`${new Date(value)}`}</span>
             </div>
           </div>
         ) : null}

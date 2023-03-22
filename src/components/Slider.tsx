@@ -3,7 +3,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
-import { Handle, Track, TooltipRail } from "./SliderComponents"; // example render components - source below
+import { Handle, Track, TooltipRail } from "./SliderComponents";
+import { MapContext } from "../providers/MapContext";
 
 const sliderStyle: React.CSSProperties = {
   position: "relative",
@@ -11,24 +12,30 @@ const sliderStyle: React.CSSProperties = {
   margin: "20% 10%"
 };
 const nowTime = Date.now();
-const prevTime = Date.now() - 1000 * 60 * 60 * 24;
+const prevTime = Date.now() - 1000 * 60 * 60 * 1;
 class TimeSlider extends React.Component {
   state = {
-    values: [nowTime],
+    values: [prevTime],
     update: [prevTime, nowTime],
     domain: [prevTime, nowTime]
   };
-
+  static contextType = MapContext;
+  context!: React.ContextType<typeof MapContext>;
   onUpdate = (update: ReadonlyArray<number>) => {
     this.setState({ update });
   };
 
   onChange = (values: ReadonlyArray<number>) => {
     this.setState({ values });
+    const context = this.context;
+    if (context?.filters) {
+      context.setFilters({ ...context.filters, MIN_DATE: values[0] });
+    }
     console.log(
       "%cSlider.tsx line:28 Date(values)",
       "color: #007acc;",
-      new Date(values[0])
+      new Date(values[0]),
+      context
     );
   };
 

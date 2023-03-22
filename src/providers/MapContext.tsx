@@ -28,7 +28,8 @@ export default function MapContextProvider({
     SPECIAL_EVENT: true,
     WEATHER_CONDITION: true,
     ROAD_CONDITION: true,
-    INCIDENT: true
+    INCIDENT: true,
+    MIN_DATE: Date.now() - 1000 * 60 * 60 * 96
   });
 
   enum LoadingStatus {
@@ -69,7 +70,10 @@ export default function MapContextProvider({
   }, []);
 
   const getFilteredMarkers = () => {
-    const result = markers.filter(({ event_type }) => filters[event_type]);
+    const result = markers.filter(
+      ({ event_type, updated }) =>
+        filters[event_type] && filters.MIN_DATE <= Date.parse(updated)
+    );
     return result ? result : null;
   };
 

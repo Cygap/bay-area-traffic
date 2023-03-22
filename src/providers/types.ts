@@ -38,6 +38,7 @@ export interface FilterTypes {
   WEATHER_CONDITION: boolean;
   ROAD_CONDITION: boolean;
   INCIDENT: boolean;
+  MIN_DATE: number;
 }
 export interface MapContextType {
   markers: TrafficEvent[];
