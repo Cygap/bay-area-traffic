@@ -20,7 +20,11 @@ interface TrafficEvent {
   areas: {}[];
   created: string;
   event_subtypes: string[];
-  event_type: string;
+  event_type:
+    | "CONSTRUCTION"
+    | "SPECIAL_EVENT"
+    | "WEATHER_CONDITION"
+    | "ROAD_CONDITION";
   geography: EventGeography;
   headline: string;
   id: string;
