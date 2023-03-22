@@ -1,7 +1,6 @@
 //Basic slider constructor from the creator of this library: https://www.npmjs.com/package/react-compound-slider
 //used it to showcase date-time filtering
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
 import { Handle, Track, TooltipRail } from "./SliderComponents";
 import { MapContext } from "../providers/MapContext";
@@ -31,12 +30,6 @@ class TimeSlider extends React.Component {
     if (context?.filters) {
       context.setFilters({ ...context.filters, MIN_DATE: values[0] });
     }
-    console.log(
-      "%cSlider.tsx line:28 Date(values)",
-      "color: #007acc;",
-      new Date(values[0]),
-      context
-    );
   };
 
   render() {

@@ -38,7 +38,7 @@ export default function EventFilters(props: PropsWithChildren) {
               );
             })}
             <div>
-              <h4>minimal event's update time:</h4>
+              <h4>event's last confirmation time:</h4>
               <TimeSlider />
             </div>
           </>
