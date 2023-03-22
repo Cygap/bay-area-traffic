@@ -2,6 +2,20 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { MapContextType, TrafficEvent } from "./types";
 
+import CONSTRUCTION from "../assets/construction-roller.svg";
+import ROAD_CONDITION from "../assets/blocker.svg";
+import SPECIAL_EVENT from "../assets/ferris-wheel.svg";
+import WEATHER_CONDITION from "../assets/weather.svg";
+import INCIDENT from "../assets/sports-car-crash.svg";
+
+export const eventType = {
+  INCIDENT,
+  CONSTRUCTION,
+  SPECIAL_EVENT,
+  WEATHER_CONDITION,
+  ROAD_CONDITION
+};
+
 // const initialValues = {
 //   markers: null,
 //   center: {
@@ -19,6 +33,14 @@ export default function MapContextProvider({
   const [markers, setMarkers] = useState<TrafficEvent[]>([] as TrafficEvent[]);
 
   const [mapState, setMapState] = useState({ center: {}, zoom: 10 });
+
+  const [filters, setFilters] = useState({
+    CONSTRUCTION: true,
+    SPECIAL_EVENT: true,
+    WEATHER_CONDITION: true,
+    ROAD_CONDITION: true,
+    INCIDENT: true
+  });
 
   enum LoadingStatus {
     loading = "loading",
@@ -60,10 +82,17 @@ export default function MapContextProvider({
     })();
   }, []);
 
+  const getFilteredMarkers = () => {
+    const result = markers.filter(({ event_type }) => filters[event_type]);
+    return result ? result : null;
+  };
+
   const contextValue = {
     markers: markers ?? [],
     mapState: mapState ?? { center: {}, zoom: 10 },
-
+    getFilteredMarkers,
+    filters,
+    setFilters,
     setMapState,
     eventsLoadingStatus,
     setEventsLoadingStatus

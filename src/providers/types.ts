@@ -4,16 +4,18 @@ export type EventGeography = {
   crs: {};
 };
 
+export type Event_Type =
+  | "CONSTRUCTION"
+  | "SPECIAL_EVENT"
+  | "WEATHER_CONDITION"
+  | "ROAD_CONDITION"
+  | "INCIDENT";
 export interface TrafficEvent {
   areas: {}[];
   created: string;
   event_subtypes: string[];
-  event_type:
-    | "CONSTRUCTION"
-    | "SPECIAL_EVENT"
-    | "WEATHER_CONDITION"
-    | "ROAD_CONDITION"
-    | "INCIDENT";
+  event_type: Event_Type;
+
   geography: EventGeography;
   headline: string;
   id: string;
@@ -30,10 +32,20 @@ export interface MapState {
   zoom: number;
 }
 
+export interface FilterTypes {
+  CONSTRUCTION: boolean;
+  SPECIAL_EVENT: boolean;
+  WEATHER_CONDITION: boolean;
+  ROAD_CONDITION: boolean;
+  INCIDENT: boolean;
+}
 export interface MapContextType {
   markers: TrafficEvent[];
   mapState: MapState;
   setMapState: Function;
   eventsLoadingStatus: string;
   setEventsLoadingStatus: Function;
+  getFilteredMarkers: Function;
+  setFilters: Function;
+  filters: FilterTypes;
 }

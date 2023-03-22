@@ -10,7 +10,7 @@ const containerStyle = {
 const controlButtonDiv = document.createElement("div");
 const handleOnLoad = (map: google.maps.Map) => {
   map &&
-    map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(
       controlButtonDiv
     );
 };
