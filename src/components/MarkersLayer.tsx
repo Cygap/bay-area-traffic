@@ -20,7 +20,7 @@ condition affecting the road
 that might affect travelers
 
 */
-const eventType = {
+export const eventType = {
   CONSTRUCTION,
   SPECIAL_EVENT,
   WEATHER_CONDITION,

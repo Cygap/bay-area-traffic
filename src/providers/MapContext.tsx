@@ -37,7 +37,7 @@ export default function MapContextProvider({
         const res = await axios.get(
           `${process.env.REACT_APP_511_BASE_URL}?api_key=${process.env.REACT_APP_511_API_KEY}&status=ACTIVE&limit=500`
         );
-        console.log("%cApp.tsx line:9 res", "color: #007acc;", res);
+
         setMarkers(res.data.events);
         setMapState({
           center: {
