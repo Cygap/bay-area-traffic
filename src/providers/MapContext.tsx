@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { MapContextType, TrafficEvent } from "./types";
 
 // const initialValues = {
 //   markers: null,
@@ -9,45 +10,6 @@ import { createContext, useEffect, useState } from "react";
 //   },
 //   zoom: 10
 // };
-
-type EventGeography = {
-  coordinates: number[];
-  type: string;
-  crs: {};
-};
-
-interface TrafficEvent {
-  areas: {}[];
-  created: string;
-  event_subtypes: string[];
-  event_type:
-    | "CONSTRUCTION"
-    | "SPECIAL_EVENT"
-    | "WEATHER_CONDITION"
-    | "ROAD_CONDITION";
-  geography: EventGeography;
-  headline: string;
-  id: string;
-  jurisdiction_url: string;
-  roads: {}[];
-  severity: string;
-  status: "ACTIVE" | "ARCHIVED";
-  updated: string;
-  url: string;
-}
-
-interface MapState {
-  center: {};
-  zoom: number;
-}
-
-interface MapContextType {
-  markers: TrafficEvent[];
-  mapState: MapState;
-  setMapState: Function;
-  eventsLoadingStatus: string;
-  setEventsLoadingStatus: Function;
-}
 
 export const MapContext = createContext<MapContextType | null>(null);
 
