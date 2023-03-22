@@ -16,23 +16,12 @@ export const eventType = {
   ROAD_CONDITION
 };
 
-// const initialValues = {
-//   markers: null,
-//   center: {
-//     lat: 37.7339524,
-//     lng: -122.0414691
-//   },
-//   zoom: 10
-// };
-
 export const MapContext = createContext<MapContextType | null>(null);
 
 export default function MapContextProvider({
   children
 }: React.PropsWithChildren) {
   const [markers, setMarkers] = useState<TrafficEvent[]>([] as TrafficEvent[]);
-
-  const [mapState, setMapState] = useState({ center: {}, zoom: 10 });
 
   const [filters, setFilters] = useState({
     CONSTRUCTION: true,
@@ -61,25 +50,22 @@ export default function MapContextProvider({
         );
 
         setMarkers(res.data.events);
-        setMapState({
-          center: {
-            lat: 37.7339524,
-            lng: -122.0414691
-          },
-          zoom: 10
-        });
+
         setEventsLoadingStatus(LoadingStatus.done);
+        console.log("%c traffic events loaded", "color: #274E13;");
       } catch (e) {
         if (e instanceof Error) {
           console.log(
             "%cMapContext.tsx line:55 e.message",
-            "color: #007acc;",
+            "color: #CC0000;",
             e.message
           );
           setEventsLoadingStatus(LoadingStatus.error);
         }
       }
     })();
+    //For this simple app loading data only once... No need to put dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getFilteredMarkers = () => {
@@ -88,14 +74,11 @@ export default function MapContextProvider({
   };
 
   const contextValue = {
-    markers: markers ?? [],
-    mapState: mapState ?? { center: {}, zoom: 10 },
+    markers: markers ?? [], //exposing also initial set of event markers for potential further uses (like adding event or deleting event)
     getFilteredMarkers,
     filters,
     setFilters,
-    setMapState,
-    eventsLoadingStatus,
-    setEventsLoadingStatus
+    eventsLoadingStatus
   };
 
   return (

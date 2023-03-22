@@ -41,10 +41,9 @@ export interface FilterTypes {
 }
 export interface MapContextType {
   markers: TrafficEvent[];
-  mapState: MapState;
-  setMapState: Function;
+
   eventsLoadingStatus: string;
-  setEventsLoadingStatus: Function;
+
   getFilteredMarkers: Function;
   setFilters: Function;
   filters: FilterTypes;
