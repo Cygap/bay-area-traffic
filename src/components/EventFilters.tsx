@@ -1,5 +1,5 @@
 import { Event_Type } from "../providers/types"; //API contract's event_type values
-import { TimeSlider } from "./Slider";
+import TimeSlider from "../features/timeslider/TimerSlider";
 
 import CONSTRUCTION from "../assets/construction-roller.svg";
 import ROAD_CONDITION from "../assets/blocker.svg";

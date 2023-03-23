@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import typeReducer from "../features/filters/TypeFiltersSlice";
-import timeReducer from "../features/filters/TimeSliderSlice";
+import timeReducer from "../features/timeslider/TimeSliderSlice";
 import eventReducer from "../features/events/EventsSlice";
 const store = configureStore({
   reducer: {

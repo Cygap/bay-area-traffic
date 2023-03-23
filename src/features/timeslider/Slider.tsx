@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
 import { Handle, Track, TooltipRail } from "./SliderComponents";
-import { END_TIME, MapContext, START_TIME } from "../providers/MapContext";
+import { END_TIME, MapContext, START_TIME } from "../../providers/MapContext";
 
 const sliderStyle: React.CSSProperties = {
   position: "relative",

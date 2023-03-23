@@ -1,7 +1,9 @@
 import { createSlice, createSelector } from "@reduxjs/toolkit";
 import axios from "axios";
+
 import { AppDispatch, RootState } from "../../providers/store";
 import { TrafficEvent } from "../../providers/types";
+import { initStartTime } from "../timeslider/TimeSliderSlice";
 
 // const initialState = [] as TrafficEvent[];
 const initialState: { loadingStatus: string; trafficEvents: TrafficEvent[] } = {
@@ -31,8 +33,9 @@ export const loadTrafficEvents =
       const res = await axios.get(url);
       console.log("%cEventsSlice.ts line:22 res", "color: #007acc;", res);
       let trafficEvents: TrafficEvent[] = res.data.events;
-      dispatch(setLoadingStatus("idle"));
+      dispatch(setLoadingStatus("done"));
       if (res.data.pagination.next_url) {
+        dispatch(setLoadingStatus("idle"));
         //For bigger data sets, that should be loaded in batches need to set-up some delay between requests, so as not to cause DOS on the server.
         //For this specific App this approach is not needed (there is limited amount of data), so everything could be loaded in one batch. Splitting
         //it just to showcase the possibility.
@@ -49,18 +52,15 @@ export const loadTrafficEvents =
         );
       }
 
-      console.log(
-        "%c traffic events loaded RTK",
-        "color: #274E13;",
-        trafficEvents
-      );
+      console.log("%c traffic events loaded events at RTK", "color: #274E13;");
 
       dispatch(addEvents(trafficEvents));
-      dispatch(setLoadingStatus("done"));
+
+      // store.dispatch(initStartTime(Date.now() - 1000 * 60 * 60 * 2));
     } catch (e) {
       if (e instanceof Error) {
         console.log(
-          "%cMapContext.tsx line:55 e.message",
+          "%cError while fetching data",
           "color: #CC0000;",
           e.message
         );
@@ -68,10 +68,15 @@ export const loadTrafficEvents =
       }
     }
   };
+export const getMinEventsUpdateTime = createSelector(
+  (state: RootState) => state.events.trafficEvents,
+  (trafficEvents) =>
+    Math.min(...trafficEvents.map(({ updated }) => Date.parse(updated)))
+);
 
 export const getFilteredMarkers = createSelector(
   (state: RootState) => state.events.trafficEvents,
-  (state: RootState) => state.time.minTime,
+  (state: RootState) => state.time.values[0],
   (state: RootState) => state.types,
   (trafficEvents, minTime, types) =>
     trafficEvents.filter(
