@@ -1,5 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../../providers/store";
 import { Event_Type } from "../../providers/types";
+
 const initialState = {
   CONSTRUCTION: true,
   SPECIAL_EVENT: true,
@@ -17,6 +19,9 @@ const typeFiltersSlice = createSlice({
     }
   }
 });
-
+export const getFilters = createSelector(
+  (state: RootState) => state.types,
+  (types) => types
+);
 export const { toggleStatus } = typeFiltersSlice.actions;
 export default typeFiltersSlice.reducer;

@@ -5,7 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./providers/store";
+import { loadTrafficEvents } from "./features/events/EventsSlice";
 
+store.dispatch(
+  loadTrafficEvents(
+    `${process.env.REACT_APP_511_BASE_URL}/traffic/events?api_key=${process.env.REACT_APP_511_API_KEY}&limit=30&offset=0`
+  )
+);
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

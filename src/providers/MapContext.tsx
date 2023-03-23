@@ -2,23 +2,6 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { MapContextType, TrafficEvent } from "./types";
 
-import CONSTRUCTION from "../assets/construction-roller.svg";
-import ROAD_CONDITION from "../assets/blocker.svg";
-import SPECIAL_EVENT from "../assets/ferris-wheel.svg";
-import WEATHER_CONDITION from "../assets/weather.svg";
-import INCIDENT from "../assets/sports-car-crash.svg";
-
-/**
- * object with constants to populate and display event_type filters
- */
-export const eventType = {
-  INCIDENT,
-  CONSTRUCTION,
-  SPECIAL_EVENT,
-  WEATHER_CONDITION,
-  ROAD_CONDITION
-};
-
 /** Constants to display TimeSlider */
 export const START_TIME = Date.now() - 1000 * 60 * 60 * 1;
 export const END_TIME = Date.now();
@@ -43,13 +26,6 @@ export default function MapContextProvider({
     if (min !== Infinity) {
       setStartTime(min);
     }
-    console.log(
-      "%cMapContext.tsx line:45 startTime",
-      "color: #007acc;",
-      new Date(startTime),
-      markers,
-      min
-    );
   }, [markers]);
   const [filters, setFilters] = useState({
     CONSTRUCTION: true,
@@ -100,13 +76,6 @@ export default function MapContextProvider({
         if (min !== Infinity) {
           setStartTime(min);
         }
-        console.log(
-          "%cMapContext.tsx line:45 startTime",
-          "color: #007acc;",
-          new Date(startTime),
-          markers,
-          min
-        );
       })();
       return trafficEvents;
     } catch (e) {

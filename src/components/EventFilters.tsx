@@ -1,7 +1,26 @@
-import { useContext } from "react";
-import { eventType, MapContext } from "../providers/MapContext"; //eventType - object with keys of Event_Type and respective values as svg icons.
 import { Event_Type } from "../providers/types"; //API contract's event_type values
 import { TimeSlider } from "./Slider";
+
+import CONSTRUCTION from "../assets/construction-roller.svg";
+import ROAD_CONDITION from "../assets/blocker.svg";
+import SPECIAL_EVENT from "../assets/ferris-wheel.svg";
+import WEATHER_CONDITION from "../assets/weather.svg";
+import INCIDENT from "../assets/sports-car-crash.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getLoadingStatus } from "../features/events/EventsSlice";
+import { getFilters, toggleStatus } from "../features/filters/TypeFiltersSlice";
+
+/**
+ * object with constants to populate and display event_type filters
+ */
+export const eventType = {
+  INCIDENT,
+  CONSTRUCTION,
+  SPECIAL_EVENT,
+  WEATHER_CONDITION,
+  ROAD_CONDITION
+};
+
 /**
  * The component controlls filtering elements and fires setFilters function received from context
  * depending on filtering elements state.
@@ -12,22 +31,25 @@ import { TimeSlider } from "./Slider";
 export default function EventFilters() {
   const filterListStyles = { display: "flex", flexFlow: "column nowrap" };
 
-  const state = useContext(MapContext);
-
+  // const state = useContext(MapContext);
+  const eventsLoadingStatus = useSelector(getLoadingStatus);
+  const filters = useSelector(getFilters);
+  const dispatch = useDispatch();
   const handleChange = ({ target }: { target: HTMLInputElement }) => {
-    state?.setFilters({
+    dispatch(toggleStatus(target.name as Event_Type));
+    /*state?.setFilters({
       ...state.filters,
       [target.name as Event_Type]: !state?.filters[target.name as Event_Type]
-    });
+    });*/
   };
   return (
     <div>
       <h3>Filter events:</h3>
-      {state?.eventsLoadingStatus === "done" ? (
+      {eventsLoadingStatus === "done" ? (
         <></>
-      ) : state?.eventsLoadingStatus === "idle" ? (
+      ) : eventsLoadingStatus === "idle" ? (
         <div>preparing next batch...</div>
-      ) : state?.eventsLoadingStatus === "loading" ? (
+      ) : eventsLoadingStatus === "loading" ? (
         <div>Loading traffic events...</div>
       ) : (
         <div>
@@ -45,7 +67,7 @@ export default function EventFilters() {
                     type="checkbox"
                     name={event}
                     id={`${event}-filter`}
-                    checked={state?.filters[event as Event_Type]}
+                    checked={filters[event as Event_Type]}
                     onChange={handleChange}
                   />
                   {event}
