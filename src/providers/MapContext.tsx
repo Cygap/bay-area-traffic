@@ -16,6 +16,9 @@ export const eventType = {
   ROAD_CONDITION
 };
 
+export const START_TIME = Date.now() - 1000 * 60 * 60 * 1;
+export const END_TIME = Date.now();
+
 export const MapContext = createContext<MapContextType | null>(null);
 
 export default function MapContextProvider({
@@ -42,29 +45,30 @@ export default function MapContextProvider({
     LoadingStatus.idle
   );
 
-  useEffect(() => {
-    (async () => {
-      setEventsLoadingStatus(LoadingStatus.loading);
-      try {
-        const res = await axios.get(
-          `${process.env.REACT_APP_511_BASE_URL}?api_key=${process.env.REACT_APP_511_API_KEY}&status=ACTIVE&limit=500`
+  const loadTrafficEvents = async () => {
+    setEventsLoadingStatus(LoadingStatus.loading);
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_511_BASE_URL}?api_key=${process.env.REACT_APP_511_API_KEY}&status=ACTIVE&limit=500`
+      );
+
+      setMarkers(res.data.events);
+
+      setEventsLoadingStatus(LoadingStatus.done);
+      console.log("%c traffic events loaded", "color: #274E13;", res);
+    } catch (e) {
+      if (e instanceof Error) {
+        console.log(
+          "%cMapContext.tsx line:55 e.message",
+          "color: #CC0000;",
+          e.message
         );
-
-        setMarkers(res.data.events);
-
-        setEventsLoadingStatus(LoadingStatus.done);
-        console.log("%c traffic events loaded", "color: #274E13;");
-      } catch (e) {
-        if (e instanceof Error) {
-          console.log(
-            "%cMapContext.tsx line:55 e.message",
-            "color: #CC0000;",
-            e.message
-          );
-          setEventsLoadingStatus(LoadingStatus.error);
-        }
+        setEventsLoadingStatus(LoadingStatus.error);
       }
-    })();
+    }
+  };
+  useEffect(() => {
+    loadTrafficEvents();
     //For this simple app loading data only once... No need to put dependencies
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

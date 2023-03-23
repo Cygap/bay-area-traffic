@@ -3,20 +3,18 @@
 import * as React from "react";
 import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
 import { Handle, Track, TooltipRail } from "./SliderComponents";
-import { MapContext } from "../providers/MapContext";
+import { END_TIME, MapContext, START_TIME } from "../providers/MapContext";
 
 const sliderStyle: React.CSSProperties = {
   position: "relative",
   width: "80%",
   margin: "20% 10%"
 };
-const nowTime = Date.now();
-const prevTime = Date.now() - 1000 * 60 * 60 * 1;
 class TimeSlider extends React.Component {
   state = {
-    values: [prevTime],
-    update: [prevTime, nowTime],
-    domain: [prevTime, nowTime]
+    values: [START_TIME],
+    update: [START_TIME, END_TIME],
+    domain: [START_TIME, END_TIME]
   };
   static contextType = MapContext;
   context!: React.ContextType<typeof MapContext>;
