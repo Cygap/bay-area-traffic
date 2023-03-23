@@ -3,7 +3,6 @@ import axios from "axios";
 
 import { AppDispatch, RootState } from "../../providers/store";
 import { TrafficEvent } from "../../providers/types";
-import { initStartTime } from "../timeslider/TimeSliderSlice";
 
 // const initialState = [] as TrafficEvent[];
 const initialState: { loadingStatus: string; trafficEvents: TrafficEvent[] } = {
@@ -33,7 +32,7 @@ export const loadTrafficEvents =
       const res = await axios.get(url);
       console.log("%cEventsSlice.ts line:22 res", "color: #007acc;", res);
       let trafficEvents: TrafficEvent[] = res.data.events;
-      dispatch(setLoadingStatus("done"));
+
       if (res.data.pagination.next_url) {
         dispatch(setLoadingStatus("idle"));
         //For bigger data sets, that should be loaded in batches need to set-up some delay between requests, so as not to cause DOS on the server.
@@ -50,8 +49,9 @@ export const loadTrafficEvents =
             `${process.env.REACT_APP_511_BASE_URL}${res.data.pagination.next_url}`
           )
         );
+      } else {
+        dispatch(setLoadingStatus("done"));
       }
-
       console.log("%c traffic events loaded events at RTK", "color: #274E13;");
 
       dispatch(addEvents(trafficEvents));

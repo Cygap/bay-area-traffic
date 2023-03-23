@@ -20,12 +20,15 @@ const timeSliderFilterSlice = createSlice({
       state.update[0] = action.payload;
     },
     initStartTime(state, action: { type: string; payload: number }) {
-      state.values[0] = state.update[0] = state.domain[0] = action.payload;
-      console.log(
-        "%cTimeSliderSlice.ts line:24 new Date(action.payload)",
-        "color: #007acc;",
-        new Date(action.payload)
-      );
+      if (action.payload !== Infinity) {
+        state.values[0] = state.update[0] = state.domain[0] = action.payload;
+        console.log(
+          "%cTimeSliderSlice.ts line:24 new Date(action.payload)",
+          "color: #007acc;",
+          new Date(action.payload),
+          action.payload
+        );
+      }
     }
   }
 });

@@ -13,6 +13,7 @@ interface WrapperProps extends MarkerProps {
  */
 export default function MarkerWrapper(props: WrapperProps) {
   const [label, setLabel] = useState<string | undefined>(undefined);
+
   const divStyle = {
     background: `white`,
     border: `1px solid #ccc`,

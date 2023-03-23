@@ -3,14 +3,24 @@ import { MarkerClustererF } from "@react-google-maps/api";
 import { TrafficEvent } from "../providers/types";
 import MarkerWrapper from "./MarkerWrapper";
 import { eventType } from "./EventFilters";
-import { useSelector } from "react-redux";
-import { getFilteredMarkers } from "../features/events/EventsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getFilteredMarkers,
+  getMinEventsUpdateTime
+} from "../features/events/EventsSlice";
+import { initStartTime } from "../features/timeslider/TimeSliderSlice";
+import { useEffect } from "react";
 
 /**
  * This component clusters map Markers depending on zoom level and the number of markers.
  * @returns {MarkerClustererF} - library specific solution for clustering markers on a map.
  */
 export default function MarkersLayer() {
+  const minTime = useSelector(getMinEventsUpdateTime);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(initStartTime(minTime));
+  }, [minTime]);
   const markers: TrafficEvent[] = useSelector(getFilteredMarkers);
   const options = {
     imagePath:
