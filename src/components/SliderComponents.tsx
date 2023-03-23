@@ -1,4 +1,5 @@
 //Slider parts from https://www.npmjs.com/package/react-compound-slider
+//Modified them slightly to display DateTime in a readable format
 import * as React from "react";
 import { SliderItem } from "react-compound-slider";
 import "./tooltips.css";

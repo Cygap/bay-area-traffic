@@ -5,6 +5,10 @@ import { MarkerClustererF } from "@react-google-maps/api";
 import { TrafficEvent } from "../providers/types";
 import MarkerWrapper from "./MarkerWrapper";
 
+/**
+ * This component clusters map Markers depending on zoom level and the number of markers.
+ * @returns {MarkerClustererF} - library specific solution for clustering markers on a map.
+ */
 export default function MarkersLayer() {
   const state = useContext(MapContext);
   const markers: TrafficEvent[] = state ? state.getFilteredMarkers() || [] : [];
@@ -12,7 +16,7 @@ export default function MarkersLayer() {
     imagePath:
       "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
     minimumClusterSize: 3,
-    maxZoom: 13,
+    maxZoom: 14,
     averageCenter: true
   };
 

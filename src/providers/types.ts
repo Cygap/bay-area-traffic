@@ -1,3 +1,4 @@
+//App types
 export type EventGeography = {
   coordinates: number[];
   type: string;
@@ -41,10 +42,7 @@ export interface FilterTypes {
   MIN_DATE: number;
 }
 export interface MapContextType {
-  markers: TrafficEvent[];
-
   eventsLoadingStatus: string;
-
   getFilteredMarkers: Function;
   setFilters: Function;
   filters: FilterTypes;

@@ -7,15 +7,27 @@ const containerStyle = {
   width: "100%",
   height: "100vh"
 };
+
+//creating plain HTML element to push inside GoogleMaps native API and then nest a EventFilters component inside
 const controlButtonDiv = document.createElement("div");
+
+/**
+ * this handler function is used to add custom control element (EventFilters) to the controls' layer of google map
+ * @param map @type {google.maps.Map} - map object from google API
+ */
+
 const handleOnLoad = (map: google.maps.Map) => {
   map &&
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(
       controlButtonDiv
     );
 };
-//default coordinates of the Bay Area
+/**
+ * Google map "wrapper" component
+ * @returns {React.element} - depending of the environment either displays the map or an error
+ */
 export default function Map() {
+  //default coordinates of the Bay Area
   const defaultProps = {
     center: {
       lat: 37.7339524,
@@ -26,9 +38,9 @@ export default function Map() {
 
   const filterStyles = {
     backgroundColor: "rgb(245, 245, 245)",
-    opacity: "0.7"
+    opacity: "0.85"
   };
-  //  google.maps.ControlPosition.TOP_CENTER
+
   return (
     // Important! Always set the container height explicitly
     <>
@@ -50,7 +62,7 @@ export default function Map() {
           </GoogleMap>
         </LoadScript>
       ) : (
-        <div>error</div>
+        <div>error, no API key</div>
       )}
     </>
   );
