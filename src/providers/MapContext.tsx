@@ -36,14 +36,28 @@ export default function MapContextProvider({
   children
 }: React.PropsWithChildren) {
   const [markers, setMarkers] = useState<TrafficEvent[]>([] as TrafficEvent[]);
+  const [startTime, setStartTime] = useState(START_TIME);
 
+  useEffect(() => {
+    const min = Math.min(...markers.map(({ updated }) => Date.parse(updated)));
+    if (min !== Infinity) {
+      setStartTime(min);
+    }
+    console.log(
+      "%cMapContext.tsx line:45 startTime",
+      "color: #007acc;",
+      new Date(startTime),
+      markers,
+      min
+    );
+  }, [markers]);
   const [filters, setFilters] = useState({
     CONSTRUCTION: true,
     SPECIAL_EVENT: true,
     WEATHER_CONDITION: true,
     ROAD_CONDITION: true,
     INCIDENT: true,
-    MIN_DATE: Date.now() - 1000 * 60 * 60 * 96
+    MIN_DATE: startTime
   });
 
   enum LoadingStatus {
@@ -79,6 +93,21 @@ export default function MapContextProvider({
 
       setEventsLoadingStatus(LoadingStatus.done);
       console.log("%c traffic events loaded", "color: #274E13;");
+      (() => {
+        const min = Math.min(
+          ...markers.map(({ updated }) => Date.parse(updated))
+        );
+        if (min !== Infinity) {
+          setStartTime(min);
+        }
+        console.log(
+          "%cMapContext.tsx line:45 startTime",
+          "color: #007acc;",
+          new Date(startTime),
+          markers,
+          min
+        );
+      })();
       return trafficEvents;
     } catch (e) {
       if (e instanceof Error) {
@@ -123,7 +152,8 @@ export default function MapContextProvider({
     getFilteredMarkers,
     filters,
     setFilters,
-    eventsLoadingStatus
+    eventsLoadingStatus,
+    startTime
   };
 
   return (

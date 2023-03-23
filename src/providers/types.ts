@@ -46,4 +46,5 @@ export interface MapContextType {
   getFilteredMarkers: Function;
   setFilters: Function;
   filters: FilterTypes;
+  startTime: number;
 }

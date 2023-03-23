@@ -11,13 +11,43 @@ const sliderStyle: React.CSSProperties = {
   margin: "20% 10%"
 };
 class TimeSlider extends React.Component {
-  state = {
-    values: [START_TIME],
-    update: [START_TIME, END_TIME],
-    domain: [START_TIME, END_TIME]
-  };
   static contextType = MapContext;
   context!: React.ContextType<typeof MapContext>;
+
+  state = {
+    values: [this.context?.startTime ? this.context.startTime : START_TIME],
+    update: [
+      this.context?.startTime ? this.context.startTime : START_TIME,
+      END_TIME
+    ],
+    domain: [
+      this.context?.startTime ? this.context.startTime : START_TIME,
+      END_TIME
+    ]
+  };
+  /* componentDidUpdate() {
+    console.log(
+      "%cSlider.tsx line:23 this.context, state",
+      "color: #007acc;",
+      this.context,
+      this.state
+    );
+
+    if (this.context) {
+      this.setState({
+        values: [this.context?.startTime ? this.context.startTime : START_TIME],
+        update: [
+          this.context?.startTime ? this.context.startTime : START_TIME,
+          END_TIME
+        ],
+        domain: [
+          this.context?.startTime ? this.context.startTime : START_TIME,
+          END_TIME
+        ]
+      });
+    }
+  }*/
+
   onUpdate = (update: ReadonlyArray<number>) => {
     this.setState({ update });
   };
