@@ -18,8 +18,10 @@ import { useEffect } from "react";
 export default function MarkersLayer() {
   const minTime = useSelector(getMinEventsUpdateTime);
   const dispatch = useDispatch();
+  // synchronising slider's minimal value with oldest update TimeDate of an event.
   useEffect(() => {
     dispatch(initStartTime(minTime));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minTime]);
   const markers: TrafficEvent[] = useSelector(getFilteredMarkers);
   const options = {

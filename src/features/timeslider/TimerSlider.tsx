@@ -8,15 +8,15 @@ const sliderStyle: React.CSSProperties = {
   width: "80%",
   margin: "20% 10%"
 };
-
+/**
+ * Decided to rewrite this component as a functional one. Synchronized it's state and values with global state.
+ * @returns {ReactElement} with slider and its controls
+ */
 export default function TimeSlider() {
   const { values, domain } = useSelector(getSliderState);
-  //   const minTime = useSelector(getMinEventsUpdateTime);
+
   const dispatch = useDispatch();
 
-  //   if (minTime !== Infinity) {
-  //     dispatch(initStartTime(minTime));
-  //   }
   const onUpdate = (update: ReadonlyArray<number>) => {
     dispatch(setUpdate(values[0]));
   };

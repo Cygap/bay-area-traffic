@@ -41,10 +41,3 @@ export interface FilterTypes {
   INCIDENT: boolean;
   MIN_DATE: number;
 }
-export interface MapContextType {
-  eventsLoadingStatus: string;
-  getFilteredMarkers: Function;
-  setFilters: Function;
-  filters: FilterTypes;
-  startTime: number;
-}

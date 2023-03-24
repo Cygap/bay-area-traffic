@@ -3,6 +3,7 @@ import { RootState } from "../../providers/store";
 /** Constants to display TimeSlider */
 const START_TIME = Date.now() - 1000 * 60 * 60 * 1;
 const END_TIME = Date.now();
+
 const initialState = {
   values: [START_TIME],
   update: [START_TIME, END_TIME],
@@ -22,17 +23,14 @@ const timeSliderFilterSlice = createSlice({
     initStartTime(state, action: { type: string; payload: number }) {
       if (action.payload !== Infinity) {
         state.values[0] = state.update[0] = state.domain[0] = action.payload;
-        console.log(
-          "%cTimeSliderSlice.ts line:24 new Date(action.payload)",
-          "color: #007acc;",
-          new Date(action.payload),
-          action.payload
-        );
       }
     }
   }
 });
 
+/**
+ * selector to get slider's current value
+ */
 export const getSliderState = createSelector(
   (state: RootState) => state.time,
   (time) => time

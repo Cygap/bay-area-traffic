@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import store from "./providers/store";
 import { loadTrafficEvents } from "./features/events/EventsSlice";
 
+//starting data fetching in parallel with components generation
 store.dispatch(
   loadTrafficEvents(
     `${process.env.REACT_APP_511_BASE_URL}/traffic/events?api_key=${process.env.REACT_APP_511_API_KEY}&limit=30&offset=0`
@@ -16,11 +17,9 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
   <Provider store={store}>
     <App />
   </Provider>
-  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

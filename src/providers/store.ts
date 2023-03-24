@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import typeReducer from "../features/filters/TypeFiltersSlice";
 import timeReducer from "../features/timeslider/TimeSliderSlice";
 import eventReducer from "../features/events/EventsSlice";
+
 const store = configureStore({
   reducer: {
     types: typeReducer,
@@ -10,6 +10,7 @@ const store = configureStore({
     events: eventReducer
   }
 });
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export default store;

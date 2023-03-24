@@ -19,9 +19,14 @@ const typeFiltersSlice = createSlice({
     }
   }
 });
+
+/**
+ * selector to get possible types of event in filter
+ */
 export const getFilters = createSelector(
   (state: RootState) => state.types,
   (types) => types
 );
+
 export const { toggleStatus } = typeFiltersSlice.actions;
 export default typeFiltersSlice.reducer;

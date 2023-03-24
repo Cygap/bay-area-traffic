@@ -4,11 +4,11 @@ import axios from "axios";
 import { AppDispatch, RootState } from "../../providers/store";
 import { TrafficEvent } from "../../providers/types";
 
-// const initialState = [] as TrafficEvent[];
 const initialState: { loadingStatus: string; trafficEvents: TrafficEvent[] } = {
   loadingStatus: "idle",
   trafficEvents: []
 };
+
 const eventsSlice = createSlice({
   name: "trafficEvents",
   initialState,
@@ -30,20 +30,15 @@ export const loadTrafficEvents =
     try {
       dispatch(setLoadingStatus("loading"));
       const res = await axios.get(url);
-      console.log("%cEventsSlice.ts line:22 res", "color: #007acc;", res);
       let trafficEvents: TrafficEvent[] = res.data.events;
 
       if (res.data.pagination.next_url) {
         dispatch(setLoadingStatus("idle"));
-        //For bigger data sets, that should be loaded in batches need to set-up some delay between requests, so as not to cause DOS on the server.
+        //Bigger data sets should be loaded in batches. Need to set-up some delay between requests, so as not to cause DOS on the server.
         //For this specific App this approach is not needed (there is limited amount of data), so everything could be loaded in one batch. Splitting
         //it just to showcase the possibility.
         await new Promise((resolve) => setTimeout(resolve, 200));
-        console.log(
-          "%cEventsSlice.ts line:30 called recursively",
-          "color: #007acc;",
-          `${process.env.REACT_APP_511_BASE_URL}${res.data.pagination.next_url}`
-        );
+
         dispatch(
           loadTrafficEvents(
             `${process.env.REACT_APP_511_BASE_URL}${res.data.pagination.next_url}`
@@ -52,11 +47,9 @@ export const loadTrafficEvents =
       } else {
         dispatch(setLoadingStatus("done"));
       }
-      console.log("%c traffic events loaded events at RTK", "color: #274E13;");
 
       dispatch(addEvents(trafficEvents));
-
-      // store.dispatch(initStartTime(Date.now() - 1000 * 60 * 60 * 2));
+      console.log("%c traffic events loaded events at RTK", "color: #274E13;");
     } catch (e) {
       if (e instanceof Error) {
         console.log(
@@ -68,12 +61,19 @@ export const loadTrafficEvents =
       }
     }
   };
+
+/**
+ * Selector to get the oldest update time in events
+ */
 export const getMinEventsUpdateTime = createSelector(
   (state: RootState) => state.events.trafficEvents,
   (trafficEvents) =>
     Math.min(...trafficEvents.map(({ updated }) => Date.parse(updated)))
 );
 
+/**
+ * selector to apply filters
+ */
 export const getFilteredMarkers = createSelector(
   (state: RootState) => state.events.trafficEvents,
   (state: RootState) => state.time.values[0],
@@ -85,6 +85,9 @@ export const getFilteredMarkers = createSelector(
     )
 );
 
+/**
+ * selector for loading status of traffic events
+ */
 export const getLoadingStatus = createSelector(
   (state: RootState) => state.events,
   (events) => events.loadingStatus
